@@ -34,6 +34,9 @@ function formatDate(jsDate) {
     return `${month}-${year}`;
 }
 
+const getdate = getCurrentDate();
+document.getElementById('addMonth').textContent = getdate || "N/A";
+
 //function to read the file
 function readExcel(file, callback) {
     try {
@@ -168,17 +171,17 @@ document.getElementById('findDetails').addEventListener('click', () => {
     try {
         const serial = document.getElementById('serialNumber').value;
         if (!serial) {
-            alert("Please enter a valid serial number.");
+            alert("ದಯವಿಟ್ಟು ಸರಿಯಾದ ಸದಸ್ಯತ್ವ ಸಂಖ್ಯೆಯನ್ನು ನಮೂದಿಸಿ.");
             document.getElementById('serialNumber').value = "";
             return;
         }
         clearInput();
         if (visited[serial] == 0) {
             if(loanCount[serial]!=0){
-                alert('Cannot update this member');
+                alert('ಈ ಸದಸ್ಯರ ಡೇಟಾವನ್ನು ಅಪ್ಡೇಟ್ ಮಾಡಲು ಸಾದ್ಯವಿಲ್ಲ.');
                 return;
             }
-            if (confirm('Member is updated once, press ok to continue')) {
+            if (confirm('ಈ ಸದಸ್ಯನ ಡೇಟಾ ಒಮ್ಮೆ ಅಪ್ಡೇಟ್ ಮಾಡಲಾಗಿದೆ, ಮತ್ತೆ ಅಪ್ಡೇಟ್ ಮಾಡಲು ಇಚ್ಚಿಸುವಿರ?')) {
                 const member = previousData.find(row => row[0] == serial);
                 if (member) {
                     document.getElementById('slno').textContent = serial || "N/A";
@@ -186,7 +189,7 @@ document.getElementById('findDetails').addEventListener('click', () => {
                     document.getElementById('loan').textContent = member[6] || 0;
                     document.getElementById('interest').textContent = (member[6] * 0.01).toFixed(2);
                 } else {
-                    alert('Member not found!');
+                    alert('ನೀವು ನಮೂದಿಸಿರುವ ಸಂಖ್ಯೆ ತಪ್ಪಾಗಿದೆ.');
                     document.getElementById('serialNumber').value = "";
                     clearOutput();
                     clearInput();
@@ -214,7 +217,7 @@ document.getElementById('findDetails').addEventListener('click', () => {
                 document.getElementById('loan').textContent = member[6] || 0;
                 document.getElementById('interest').textContent = (member[6] * 0.01).toFixed(2);
             } else {
-                alert('Member not found!');
+                alert('ನೀವು ನಮೂದಿಸಿರುವ ಸಂಖ್ಯೆ ತಪ್ಪಾಗಿದೆ!');
                 document.getElementById('serialNumber').value = "";
                 clearOutput();
                 clearInput();
@@ -240,7 +243,10 @@ document.getElementById('getTotal').addEventListener('click', () => {
         const loan = parseFloat(document.getElementById('loan').textContent) || 0;
         const interest = parseFloat(document.getElementById('interest').textContent) || 0;
         const total = 200 + interest + payback;
-
+        if(payback>loan){
+            alert('ಸಾಲಕಿಂತ ಮರುಪಾತಿ ಜಾಸ್ತಿ ಆಗಿದೆ.');
+            return;
+        }
         document.getElementById('total').textContent = total.toFixed(2);
         document.getElementById('remainingLoan').textContent = (loan - payback).toFixed(2);
     } catch (error) {
@@ -263,7 +269,7 @@ function update_summary(){
         const rem_loan = parseFloat(document.getElementById('remainingLoan').textContent);
         const total = parseFloat(document.getElementById('total').textContent);
         if (!slno) {
-            alert("Please enter a valid serial number.");
+            alert("ದಯವಿಟ್ಟು ಸರಿಯಾದ ಸದಸ್ಯತ್ವ ಸಂಖ್ಯೆಯನ್ನು ನಮೂದಿಸಿ.");
             document.getElementById('serialNumber').value = "";
             return;
         }
@@ -307,11 +313,11 @@ function update_summary(){
             }
 
             calculate_add(sav, loan, interest, pay, rem_loan, total);
-            alert('data updated sucessfully!')
+            alert('ಡೇಟಾವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ನವೀಕರಿಸಲಾಗಿದೆ!')
             visited[slno] = 0;
             attendence_sum();
             load_marqee();
-            if (confirm("Do you want to send the information in the SMS to the member") == true) {
+            if (confirm("ಈ ವಿವರವನ್ನು ಸದಸ್ಯರಿಗೆ SMS ಮೂಲಕ ಕಳಿಸಲು ಇಚ್ಚಿಸುವಿರ ?") == true) {
                 sendSMS();
             } else {
                 text = "message not sent";
@@ -327,6 +333,38 @@ function update_summary(){
         alert(`Error updating file: ${error.message}`);
     }
 }
+
+function sendSMS() {
+    const phoneNumbers = ["+910","+919448226897","+919449741321","+917676218292","+919481950080","+919482203366","+919945238395","+919481347820","+919481612303","+918147249762","+919972361217","+918762652838",
+        "+919731116656","+919986375999","+919448226897","+919483689422","+919480976675","+919482495361","+919483220796","+919483220796","+91"];
+    const sno = document.getElementById('slno').textContent;
+    const name = document.getElementById('name').textContent;
+    const gtotal = parseFloat(document.getElementById('totalSavings').textContent);
+    //total interest
+    const interest = parseFloat(document.getElementById('interest').textContent) || 0;
+    const pbk = parseFloat(document.getElementById('payback').value) || 0;
+    //total loan left
+    const tll = parseFloat(document.getElementById('remainingLoan').textContent) || 0;
+    const phoneNumber = phoneNumbers[sno];
+    // alert(phoneNumber);
+    const x = parseFloat(document.getElementById('isave').textContent) || NAN;
+    const message = "ಆತ್ಮೀಯ " + name + ",\n" +
+        "ಈ ಸಂದೇಶವು ಶ್ರೀ ವಿಶ್ವಕರ್ಮ ಸ್ವಸಹಾಯ ಸಂಘದ ಪರವಾಗಿ,\n" +
+        "ನಿಮ್ಮ ಈ ತಿಂಗಳ ವಹಿವಾಟಿನ ವಿವರ::\n" +
+        "ಈ ತಿಂಗಳ ಉಳಿತಾಯ: " + gtotal + ",\n" +
+        "ಬಡ್ಡಿ: " + interest + ",\n" +
+        "ಸಾಲ ಮರುಪಾವತಿ: " + pbk + ",\n" +
+        "ಬಾಕಿ ಸಾಲ: " + tll + ",\n" +
+        "ನಿಮ್ಮ ಇಲ್ಲಿಯವರೆಗಿನ ಉಳಿತಾಯ: " + x + ".";
+    if (!phoneNumber) {
+        alert("Cannot send message.");
+        return;
+    }
+
+    // Use the sms: URI to open the SMS app
+    window.location.href = `sms:${phoneNumber}?body=${encodeURIComponent(message)}`;
+}
+
 
 //calculate function
 function calculate_add(s, l, i, p, r, t) {
@@ -377,16 +415,15 @@ document.getElementById('crt').addEventListener('click', () => {
         const amt = parseFloat(document.getElementById('amt').value);
         const old_bal = parseFloat(previousData[24][2]);
         if (!slno) {
-            alert("Please enter a valid serial number.");
+            alert("ದಯವಿಟ್ಟು ಸರಿಯಾದ ಸದಸ್ಯತ್ವ ಸಂಖ್ಯೆಯನ್ನು ನಮೂದಿಸಿ.");
             document.getElementById('sNum').value = "";
             return;
         } else {
             const rowIndex = emptyData.findIndex(row => row[0] == slno);
-            alert('The loan will be given to '+emptyData[rowIndex][1]);
             const total_amt = parseFloat(emptyData[24][2]);
             const will_remain = total_amt + old_bal - amt;
             if (emptyData[rowIndex][2] == 0 && emptyData[rowIndex][7] == 0) {
-                alert('member hasn\'t commited thier transction yet. please complete the transaction and come back');
+                alert('ಈ ಸದಸ್ಯನು ಈ ತಿಂಗಳ ವಹಿವಾಟನ್ನು ಇನ್ನು ನಡೆಸಿಲ್ಲ, ಮೊದಲು ಅದನ್ನು ಮುಗಿಸಿ ಪುನಃ ಬನ್ನಿ.');
                 clearLoanDetails();
                 return;
             }
@@ -394,15 +431,20 @@ document.getElementById('crt').addEventListener('click', () => {
                 // alert(will_remain);
                 if (check_condition(rowIndex) || check_condition2(rowIndex)) {
                     // alert('passed');
-                    if (confirm('After giving the Loan only Rs.' + will_remain + ' will be left in the account.')) {
-                        emptyData[rowIndex][6] = amt;
-                        emptyData[rowIndex][8] = getMonth();
-                        const tempo = parseFloat(emptyData[20][6]) + parseFloat(amt);
-                        emptyData[20][6] = parseFloat(tempo);
-                        // alert(emptyData[20][6]);
-                        loanCount[slno] = amt;
-                        alert('Loan Sanctioned Sucessfully');
-                        emptyData[24][2] = emptyData[24][2] - amt;
+                    if (confirm('ಸಾಲ ನೀಡಿದ ನಂತರ ರೂ.'+will_remain+' ಮಾತ್ರ ಖಾತೆಯಲ್ಲಿ ಉಳಿಯುತ್ತದೆ.')) {
+                        if(confirm('ರೂ.'+amt+'ಅನ್ನು ಸಾಲವಾಗಿ '+emptyData[slno-1][1]+' ಅವರಿಗೆ ಕೊಡಲಾಗುವುದು.'))
+                        {
+                            emptyData[rowIndex][6] = amt;
+                            emptyData[rowIndex][8] = getMonth();
+                            const tempo = parseFloat(emptyData[20][6]) + parseFloat(amt);
+                            emptyData[20][6] = parseFloat(tempo);
+                            // alert(emptyData[20][6]);
+                            loanCount[slno] = amt;
+                            alert('ಸಾಲ ಯಶಸ್ವಿಯಾಗಿ ಹಂಚಿಕೆ ಮಾಡಲಾಗಿದೆ.');
+                            emptyData[24][2] = emptyData[24][2] - amt;
+                        }else{
+                            return;
+                        }
                     }
                     else {
                         clearLoanDetails();
@@ -410,12 +452,12 @@ document.getElementById('crt').addEventListener('click', () => {
                     }
 
                 } else {
-                    alert('member is already under loan');
+                    alert('ಈ ಸದಸ್ಯ ಈಗಾಗಲೇ ಸಾಲ ತಗೆದುಕೊಂಡಿರುತ್ತಾರೆ, ಆ ಸಾಲವೂ ಇನ್ನು ತೀರಿಲ್ಲ.');
                     clearLoanDetails();
                     return;
                 }
             } else {
-                alert('Insufficient amount to give loan');
+                alert('ಸಾಲ ನೀಡಲು ಹಣ ಸಾಕಾಗುವುದಿಲ್ಲ.');
                 clearLoanDetails();
                 return;
             }
@@ -437,7 +479,7 @@ function check_condition(x) {
 }
 function check_condition2(x) {
     if (emptyData[x][6] == 0 && emptyData[x][8] == "NaN") {
-        if (confirm('Member has cleared the loan today do you want to give the loan')) {
+        if (confirm('ಈ ಸದಸ್ಯನೂ ಇಂದು ಸಾಲ ತೀರಿಸಿರುತ್ತಾರೆ, ಪುನಃ ಸಾಲ ವಿತರಿಸಲು ಇಚಿಸುತ್ತೀರ.')) {
             return true;
         } else {
             return false;
@@ -457,59 +499,7 @@ document.getElementById('clr').addEventListener('click', () => {
     clearLoanDetails();
 });
 
-const phoneNumbers = [
-    "+910",
-    "+919448226897",
-    "+919449741321",
-    "+917676218292",
-    "+919481950080",
-    "+919482203366",
-    "+919945238395",
-    "+919481347820",
-    "+919481612303",
-    "+918147249762",
-    "+919972361217",
-    "+918762652838",
-    "+919731116656",
-    "+919986375999",
-    "+919448226897",
-    "+919483689422",
-    "+919480976675",
-    "+919482495361",
-    "+919483220796",
-    "+919483220796",
-    "+918277312584"
-];
 
-function sendSMS() {
-    const sno = document.getElementById('slno').value;
-    const name = document.getElementById('name').textContent;
-    const gtotal = parseFloat(document.getElementById('totalSavings').textContent);
-    //total interest
-    const interest = parseFloat(document.getElementById('interest').textContent) || 0;
-    const pbk = parseFloat(document.getElementById('payback').value) || 0;
-    //total loan left
-    const tll = parseFloat(document.getElementById('remainingLoan').textContent) || 0;
-    const phoneNumber = phoneNumbers[sno];
-    const x = parseFloat(document.getElementById('isave').textContent) || NAN;
-    const message = "ಆತ್ಮೀಯ " + name + ",\n" +
-        "ಈ ಸಂದೇಶವು ಶ್ರೀ ವಿಶ್ವಕರ್ಮ ಸ್ವಸಹಾಯ ಸಂಘದ ಪರವಾಗಿ,\n" +
-        "ನಿಮ್ಮ ಈ ತಿಂಗಳ ವಹಿವಾಟಿನ ವಿವರ::\n" +
-        "ಈ ತಿಂಗಳ ಉಳಿತಾಯ: " + gtotal + ",\n" +
-        "ಬಡ್ಡಿ: " + interest + ",\n" +
-        "ಸಾಲ ಮರುಪಾವತಿ: " + pbk + ",\n" +
-        "ಬಾಕಿ ಸಾಲ: " + tll + ",\n" +
-        "ನಿಮ್ಮ ಇಲ್ಲಿಯವರೆಗಿನ ಉಳಿತಾಯ: " + x + ".";
-        alert(name+','+gtotal+','+interest+','+pbk+','+tll);
-
-    if (!phoneNumber) {
-        alert("Cannot send message.");
-        return;
-    }
-
-    // Use the sms: URI to open the SMS app
-    window.location.href = `sms:${phoneNumber}?body=${encodeURIComponent(message)}`;
-}
 
 //final summary
 document.getElementById('finalize').addEventListener('click', () => {
