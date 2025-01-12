@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Transaction</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>
+        <h1>S.V.S.S</h1>
+        <p id="addMonth"></p>
+    </header>
+    <main>
+        <h2><u>ವಹಿವಾಟು</u></h2>
+        <div class="file-upload">
+            <label for="previousFile">Upload Previous Transaction</label>
+            <input type="file" id="previousFile" accept=".xlsx, .xls">
+        </div>
+        <div class="file-upload">
+            <label for="monthlyFile">Upload Empty File</label>
+            <input type="file" id="monthlyFile" accept=".xlsx, .xls">
+        </div>
+
+        <div class="details">
+            <marquee behavior="scroll" direction="left" id="marquee" title="attendance"></marquee>
+            <h3><u>ಸದಸ್ಯರ ವಿವರ</u></h3>
+            <div class="search-section">
+                <label for="serialNumber">ಸದಸ್ಯತ್ವ ಸಂಖ್ಯೆ:</label>
+                <input type="number" id="serialNumber" placeholder="Enter serial number" min="1" , max="20">
+                <button id="findDetails">Find Details</button>
+            </div>
+            <p><strong>ಸದಸ್ಯತ್ವ ಸಂಖ್ಯೆ:</strong> <span id="slno"></span></p>
+            <p><strong>ಹೆಸರು:</strong> <span id="name"></span></p>
+            <p><strong>ಉಳಿತಾಯ:</strong> <span id="savings">200</span></p>
+            <p><strong>ಸಾಲ ಬಾಕಿ:</strong> <span id="loan"></span></p>
+            <p><strong>ಬಡ್ಡಿ:</strong> <span id="interest"></span></p>
+            <p>
+                <strong>ಮರುಪಾವತಿ:</strong>
+                <input type="number" id="payback" placeholder="Enter amount">
+                <button id="getTotal">Get Total</button>
+            </p>
+            <p><strong>ಪಾವತಿಸಬೇಕಾದ ಹಣ:</strong> <span id="total"></span></p>
+            <p><strong>ಉಳಿದ ಸಾಲ:</strong> <span id="remainingLoan"></span></p>
+            <button id="update">Update</button>
+        </div>
+        <div class="summary">
+            <h3>ಸಾರಾಂಶ (ಇಲ್ಲಿಯವರೆಗೆ)</h3>
+            <div>
+                <!-- <p><strong>ಹಿಂದಿನ ಬ್ಯಾಂಕಿನ ಬ್ಯಾಲೆನ್ಸ್:</strong> <span id="obb"></span></p> -->
+                <p><strong>ಹಾಜರಾತಿ:</strong> <span id="attendance"></span></p>
+                <p><strong>ಒಟ್ಟು ಉಳಿತಾಯ:</strong> <span id="totalSavings"></span></p>
+                <p><strong>ಒಟ್ಟು ಬಡ್ಡಿ:</strong> <span id="totalInterest"></span></p>
+                <p><strong>ಒಟ್ಟು ಮರುಪಾವತಿ:</strong> <span id="totalPayback"></span></p>
+                <p><strong>ಒಟ್ಟು ಸಾಲ ಬಾಕಿ ಇರುವುದು:</strong> <span id="totalLoanLeft"></span></p>
+                <p><strong>ಒಟ್ಟು ಮೊತ್ತ:</strong><strong><span id="grandTotal"></span></strong></p>
+            </div>
+        </div>
+        <div class="loandetails">
+            <h3><u>ಸಾಲದ ವಿವರಣೆ</u></h3>
+            <div>
+                <p><strong>ಸದಸ್ಯತ್ವ ಸಂಖ್ಯೆ:</strong><input type="number" id="sNum" placeholder="Enter serial number"
+                        min="1" , max="20"></p>
+                <p><strong>ಮೊತ್ತ:</strong><input type="number" id="amt" placeholder="Enter amount" value="0"></p>
+                <button id="crt">OK</button>
+                <button id="clr">Clear</button>
+            </div>
+        </div>
+        <div class="finialise">
+            <button id="finalize">Finalize</button>
+            <h3><u>ವಹಿವಾಟಿನ ಸಾರಾಂಶ</u></h3>
+            <p><strong>ಹಿಂದಿನ ಬ್ಯಾಂಕಿನ ಬ್ಯಾಲೆನ್ಸ್:</strong> <span id="fobb"></span></p>
+            <p><strong>ಒಟ್ಟು ಉಳಿತಾಯ:</strong> <span id="ftotalSavings"></span></p>
+            <p><strong>ಒಟ್ಟು ಬಡ್ಡಿ:</strong> <span id="ftotalInterest"></span></p>
+            <p><strong>ಒಟ್ಟು ಮರುಪಾವತಿ:</strong> <span id="ftotalpayback"></span></p>
+            <p><strong>ಒಟ್ಟು ಮೊತ್ತ:</strong> <span id="ftotalAmt"></span></p>
+            <p><strong>ಸಾಲ ನೀಡಿದ ಮೊತ್ತ:</strong> <span id="fLoanAmt"></span></p>
+            <p><strong>ಇತರೆ:</strong><input type="number" id="others" placeholder="Enter extra amount for bank" value="0"></p>
+            <button id="calculate">Calculate Balance</button>
+            <p><strong>ಬ್ಯಾಂಕಿನ ಹೊಸ ಬ್ಯಾಲೆನ್ಸ್:</strong> <span id="fnbb"></span></p>
+
+
+
+        </div>
+        <div>
+            <br>
+            <button id="save">Save</button>
+            <br>
+        </div>
+    </main>
+    <!-- Add the SheetJS library -->
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+    <script src="script.js"></script>
+</body>
+<footer>
+    <div class="footer">
+        <p>ಓರ್ವ ಸದಸ್ಯರ ಉಳಿತಾಯ: <span id="isave"></span></p>
+        <p>ಶ್ರೀ ವಿಶ್ವಕರ್ಮ ಸ್ವಸಹಾಯ ಸಂಘ, ಗುಡ್ಡೇಕೊಪ್ಪ. <span>(ಪ್ರಾರಂಭ ದಿನಾಂಕ: 06/11/2011)</span></p>
+    </div>
+</footer>
+
+</html>

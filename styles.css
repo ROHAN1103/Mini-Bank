@@ -1,0 +1,191 @@
+/* styles.css */
+
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    background-color: #ffffff;
+    color: #333;
+}
+
+/* Header */
+header {
+    background-color: #2c8ec7;
+    color: #fff;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+header p{
+    width: 30%;
+    color: #fff;
+    padding-right: 5px;
+}
+#update{
+    background-color: rgb(239, 247, 2);
+}
+#update:hover{
+    background-color: rgb(235, 178, 72);
+}
+#save{
+    background: rgb(20, 98, 29);
+    color: #fff;
+}
+#save:hover{
+    background: rgb(35, 163, 50);
+
+
+}
+input[type="file"]{
+    padding: 5px;
+    border: 1px solid #080808;
+    border-radius: 5px;
+    background-color: rgb(69, 175, 192);
+    box-sizing: border-box;
+    color: white;
+}
+
+ button{
+    padding: 5px;
+    border: 1px solid #040e65;
+    border-radius: 5px;
+    box-sizing: border-box;
+    cursor: grab;
+}
+
+input[type="text"],input[type="number"]{
+    padding: 6px;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    background-color: rgb(254, 254, 254);
+    box-sizing: border-box;
+}
+
+label, input, button, p {
+    display: block;
+    width: 100%;
+    margin: 8px 0;
+    font-size: 16px;
+}
+
+.file-upload{
+    font-weight: bold;
+    padding: 9px;
+    background-color: rgb(147, 230, 243);   
+}
+
+header h1 {
+    margin: 0;
+    padding-left: 2px;
+    text-align: center;
+}
+
+main h2{
+    text-align: center;
+}
+
+/* Main Content */
+main {
+    padding: 1.2rem;
+}
+
+/* Buttons */
+.details{
+    padding-left: 9px;
+    background-color: #d6d6c9;;
+}
+
+.details strong{
+    padding-left: 1rem;
+} 
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    body {
+        padding: 0.5rem;
+    }
+
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
+
+.summary{
+    background-color: rgb(147, 230, 243);
+    padding-left: 1rem;
+}
+
+.summary div{
+    display:inline-block;
+}
+.summary p{
+    font-size: 0.9rem;
+}
+
+.loandetails{
+    background-color: #d6d6c9;
+    padding-left: 1rem;
+}
+
+.loandetails div{
+    display:inline-block;
+}
+.loandetails p{
+    font-size: 0.9rem;
+}
+
+.loandetails button{
+    display: inline-flex;
+    width: 48%;
+    justify-content: center;
+}
+
+#finalize{
+    background-color: #2c8ec7;
+    color: #fff;
+}
+
+#calculate{
+    background-color: rgb(227, 227, 71);
+}
+
+#crt{
+    background-color: #66ee5e;
+}
+#clr{
+    background-color: #e07f5f;
+}
+
+.details button{
+    background-color: #f7d55a;
+}
+
+.footer{
+    background-color: #2c8ec7;
+    padding: 12px;
+    padding-left: 24px;
+    padding-bottom: 25px;
+    font-size: 0.9rem;
+    color: #fff;
+}
+.footer span {
+    font-size: 0.75rem;
+    text-align:end;
+}
+.details label{
+    font-weight: bold;
+}
+
+marquee{
+    color: #fff;
+    background-color: rgb(98, 36, 36);
+}
