@@ -97,13 +97,13 @@ document.getElementById('monthlyFile').addEventListener('change', (event) => {
             if (confirm('ನಿಮ್ಮ ಫೈಲ್ ಈಗಾಗಲೇ  ಅಪ್ಡೇಟ್ ಆಗಿದೆ, ನೀವು ಮುಂದುವರಿಸಲು ಬಯಸುವಿರಾ')) {
                 doubleupload = true;
                 alert('ಫೈಲ್ ಲೋಡಿಂಗ್ ಯಶಸ್ವಿಯಾಗಿದೆ.');
-                for(i=0;i<20;i++){
-                    if(emptyData[i][7]!=0){
-                        visited[i+1]=0;
+                for (i = 0; i < 20; i++) {
+                    if (emptyData[i][7] != 0) {
+                        visited[i + 1] = 0;
                     }
-                    const cd=getMonth();
-                    if(emptyData[i][8]==cd){
-                        loanCount[i+1]=emptyData[i][6];
+                    const cd = getMonth();
+                    if (emptyData[i][8] == cd) {
+                        loanCount[i + 1] = emptyData[i][6];
                     }
                 }
             }
@@ -142,15 +142,15 @@ function attendence_sum() {
 }
 
 //load marquee
-function load_marqee(){
-    let marquee=[];
-    for(i=0;i<=20;i++){
-        if(visited[i]==0){
-            marquee.push(emptyData[i-1][1]);
+function load_marqee() {
+    let marquee = [];
+    for (i = 0; i <= 20; i++) {
+        if (visited[i] == 0) {
+            marquee.push(emptyData[i - 1][1]);
             marquee.push("    ");
         }
     }
-    document.getElementById('marquee').textContent=marquee;
+    document.getElementById('marquee').textContent = marquee;
 }
 
 //clear input
@@ -159,7 +159,7 @@ function clearInput() {
     document.getElementById('total').textContent = "";
     document.getElementById('remainingLoan').textContent = "";
 }
-function clearOutput(){
+function clearOutput() {
     document.getElementById('slno').textContent = "";
     document.getElementById('name').textContent = "";
     document.getElementById('loan').textContent = "";
@@ -177,7 +177,7 @@ document.getElementById('findDetails').addEventListener('click', () => {
         }
         clearInput();
         if (visited[serial] == 0) {
-            if(loanCount[serial]!=0){
+            if (loanCount[serial] != 0) {
                 alert('ಈ ಸದಸ್ಯರ ಡೇಟಾವನ್ನು ಅಪ್ಡೇಟ್ ಮಾಡಲು ಸಾದ್ಯವಿಲ್ಲ.');
                 return;
             }
@@ -195,7 +195,7 @@ document.getElementById('findDetails').addEventListener('click', () => {
                     clearInput();
                 }
                 const field = document.getElementById('payback');
-                if(payback>member[6]){
+                if (payback > member[6]) {
                     alert('ಗಮನಿಸಿ ಮರುಪಾವತಿಯ ಮೊತ್ತವೂ ಸಾಲಕಿಂತ ಹೆಚ್ಚಿದೆ.');
                     document.getElementById('payback').value = "";
                 }
@@ -245,8 +245,10 @@ document.getElementById('getTotal').addEventListener('click', () => {
         const total = 200 + interest + payback;
         if(payback>loan){
             alert('ಸಾಲಕಿಂತ ಮರುಪಾತಿ ಜಾಸ್ತಿ ಆಗಿದೆ.');
+            document.getElementById('payback').value="";
             return;
         }
+
         document.getElementById('total').textContent = total.toFixed(2);
         document.getElementById('remainingLoan').textContent = (loan - payback).toFixed(2);
     } catch (error) {
@@ -256,10 +258,10 @@ document.getElementById('getTotal').addEventListener('click', () => {
 
 //update data
 document.getElementById('update').addEventListener('click', () => {
-    update_summary(); 
+    update_summary();
 });
 
-function update_summary(){
+function update_summary() {
     try {
         const slno = document.getElementById('slno').textContent;
         const sav = 200;
@@ -335,8 +337,8 @@ function update_summary(){
 }
 
 function sendSMS() {
-    const phoneNumbers = ["+910","+919448226897","+919449741321","+917676218292","+919481950080","+919482203366","+919945238395","+919481347820","+919481612303","+918147249762","+919972361217","+918762652838",
-        "+919731116656","+919986375999","+919448226897","+919483689422","+919480976675","+919482495361","+919483220796","+919483220796","+91"];
+    const phoneNumbers = ["+910", "+919448226897", "+919449741321", "+917676218292", "+919481950080", "+919482203366", "+919945238395", "+919481347820", "+919481612303", "+918147249762", "+919972361217", "+918762652838",
+        "+919731116656", "+919986375999", "+919448226897", "+919483689422", "+919480976675", "+919482495361", "+919483220796", "+919483220796", "+918277312584"];
     const sno = document.getElementById('slno').textContent;
     const name = document.getElementById('name').textContent;
     const gtotal = parseFloat(document.getElementById('totalSavings').textContent);
@@ -346,7 +348,7 @@ function sendSMS() {
     //total loan left
     const tll = parseFloat(document.getElementById('remainingLoan').textContent) || 0;
     const phoneNumber = phoneNumbers[sno];
-    // alert(phoneNumber);
+    alert(phoneNumber);
     const x = parseFloat(document.getElementById('isave').textContent) || NAN;
     const message = "ಆತ್ಮೀಯ " + name + ",\n" +
         "ಈ ಸಂದೇಶವು ಶ್ರೀ ವಿಶ್ವಕರ್ಮ ಸ್ವಸಹಾಯ ಸಂಘದ ಪರವಾಗಿ,\n" +
@@ -431,9 +433,8 @@ document.getElementById('crt').addEventListener('click', () => {
                 // alert(will_remain);
                 if (check_condition(rowIndex) || check_condition2(rowIndex)) {
                     // alert('passed');
-                    if (confirm('ಸಾಲ ನೀಡಿದ ನಂತರ ರೂ.'+will_remain+' ಮಾತ್ರ ಖಾತೆಯಲ್ಲಿ ಉಳಿಯುತ್ತದೆ.')) {
-                        if(confirm('ರೂ.'+amt+'ಅನ್ನು ಸಾಲವಾಗಿ '+emptyData[slno-1][1]+' ಅವರಿಗೆ ಕೊಡಲಾಗುವುದು.'))
-                        {
+                    if (confirm('ಸಾಲ ನೀಡಿದ ನಂತರ ರೂ.' + will_remain + ' ಮಾತ್ರ ಖಾತೆಯಲ್ಲಿ ಉಳಿಯುತ್ತದೆ.')) {
+                        if (confirm('ರೂ.' + amt + 'ಅನ್ನು ಸಾಲವಾಗಿ ' + emptyData[slno - 1][1] + ' ಅವರಿಗೆ ಕೊಡಲಾಗುವುದು.')) {
                             emptyData[rowIndex][6] = amt;
                             emptyData[rowIndex][8] = getMonth();
                             const tempo = parseFloat(emptyData[20][6]) + parseFloat(amt);
@@ -464,7 +465,7 @@ document.getElementById('crt').addEventListener('click', () => {
 
         }
 
-    }catch (error) {
+    } catch (error) {
         alert(`Error: ${error.message}`);
     }
 });
