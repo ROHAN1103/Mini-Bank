@@ -189,3 +189,19 @@ marquee{
     color: #fff;
     background-color: rgb(98, 36, 36);
 }
+
+marquee2{
+    color: #fff;
+    background-color: rgb(98, 36, 36);
+}
+
+.marquee-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Adjust spacing */
+}
+
+.marquee-heading {
+    font-weight: bold;
+    white-space: nowrap; /* Prevents breaking */
+}
