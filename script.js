@@ -3,6 +3,7 @@ let emptyData = [];
 let visited = [999, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
 let loanCount = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 let doubleupload = false;
+let no_loan_member=[];
 
 //date related 
 function getCurrentDate() {
@@ -76,6 +77,7 @@ document.getElementById('previousFile').addEventListener('change', (event) => {
         previousData = data.slice(1); // Exclude header
         alert('ಫೈಲ್ ಲೋಡಿಂಗ್ ಯಶಸ್ವಿಯಾಗಿದೆ.');
     });
+    
 });
 
 // Load empty file
@@ -116,6 +118,7 @@ document.getElementById('monthlyFile').addEventListener('change', (event) => {
             alert('ಫೈಲ್ ಲೋಡಿಂಗ್ ಯಶಸ್ವಿಯಾಗಿದೆ.');
         }
         load_marqee();
+        load_noLoan();
         const x = parseFloat(previousData[25][2]) + 200;
         emptyData[25][2] = x;
         document.getElementById('isave').textContent = x || NaN;
@@ -151,6 +154,15 @@ function load_marqee() {
         }
     }
     document.getElementById('marquee').textContent = marquee;
+}
+//load no_loan
+function load_noLoan(){
+    for(i=0;i<20;i++){
+        if(previousData[i][8]=="NaN"){
+            no_loan_member.push(previousData[i][1]+"    ");
+        }
+    }
+    document.getElementById('marquee2').textContent = no_loan_member;
 }
 
 //clear input
