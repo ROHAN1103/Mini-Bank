@@ -149,7 +149,7 @@ function load_marqee() {
     let marquee = [];
     for (i = 0; i <= 20; i++) {
         if (visited[i] == 0) {
-            marquee.push(emptyData[i - 1][1]);
+            marquee.push(emptyData[i - 1][1]+"    ");
             marquee.push("    ");
         }
     }
@@ -554,7 +554,7 @@ document.getElementById('calculate').addEventListener('click', () => {
         const loan = parseFloat(document.getElementById('fLoanAmt').textContent);
         let o_ther = parseFloat(document.getElementById('others').value);
         if (doubleupload) {
-            o_ther = o_ther + parseFloat(emptyData[22][2]);
+            emptyData[22][2]=0;
         }
         emptyData[22][2] = o_ther;
         const hero = fobb + ts + o_ther - loan;
