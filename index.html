@@ -27,7 +27,11 @@
         </div>
 
         <div class="details">
-            <marquee behavior="scroll" direction="left" id="marquee" title="attendance"></marquee>
+            <div class="marquee-container">
+                <span class="marquee-heading">ಹಾಜರಾತಿ:</span>
+                <marquee behavior="scroll" direction="left" id="marquee" title="attendance"></marquee>
+            </div>           
+
             <h3><u>ಸದಸ್ಯರ ವಿವರ</u></h3>
             <div class="search-section">
                 <label for="serialNumber">ಸದಸ್ಯತ್ವ ಸಂಖ್ಯೆ:</label>
@@ -63,6 +67,10 @@
         <div class="loandetails">
             <h3><u>ಸಾಲದ ವಿವರಣೆ</u></h3>
             <div>
+                <div class="marquee-container">
+                    <span class="marquee-heading">ಸಾಲ ಇಲ್ಲದವರು:</span>
+                    <marquee behavior="scroll" direction="left" id="marquee2" title="No_Loan"></marquee>
+                </div>
                 <p><strong>ಸದಸ್ಯತ್ವ ಸಂಖ್ಯೆ:</strong><input type="number" id="sNum" placeholder="Enter serial number"
                         min="1" , max="20"></p>
                 <p><strong>ಮೊತ್ತ:</strong><input type="number" id="amt" placeholder="Enter amount" value="0"></p>
@@ -82,9 +90,6 @@
             <p><strong>ಇತರೆ:</strong><input type="number" id="others" placeholder="Enter extra amount for bank" value="0"></p>
             <button id="calculate">Calculate Balance</button>
             <p><strong>ಬ್ಯಾಂಕಿನ ಹೊಸ ಬ್ಯಾಲೆನ್ಸ್:</strong> <span id="fnbb"></span></p>
-
-
-
         </div>
         <div>
             <br>
