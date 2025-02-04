@@ -353,7 +353,7 @@ function sendSMS() {
         "+919731116656", "+919986375999", "+919448226897", "+919483689422", "+919480976675", "+919482495361", "+919483220796", "+919483220796", "+918277312584"];
     const sno = document.getElementById('slno').textContent;
     const name = document.getElementById('name').textContent;
-    const gtotal = parseFloat(document.getElementById('totalSavings').textContent);
+    const gtotal = parseFloat(document.getElementById('savings').textContent);
     //total interest
     const interest = parseFloat(document.getElementById('interest').textContent) || 0;
     const pbk = parseFloat(document.getElementById('payback').value) || 0;
